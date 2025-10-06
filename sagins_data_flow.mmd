@@ -1,0 +1,39 @@
+%% File: sagins_data_flow.mmd
+%% Description: Sequence diagram for a data request in a SAG-IN.
+
+sequenceDiagram
+    participant UE as User Equipment
+    participant UAV as UAV Relay
+    participant LEO as LEO Satellite
+    participant GW as Ground Gateway
+    participant DC as Data Center
+
+    UE->>UAV: Request data (e.g., video stream)
+    activate UAV
+
+    %% THAY ĐỔI Ở ĐÂY: Dùng 'alt' thay cho 'opt' cho cấu trúc if-else
+    alt Data is cached on UAV
+        UAV-->>UE: Serve data from cache
+    else Data not cached
+        UAV->>LEO: Forward data request
+        activate LEO
+        
+        LEO->>GW: Relay request to ground
+        activate GW
+        
+        GW->>DC: Query for data
+        activate DC
+        
+        DC-->>GW: Data found
+        deactivate DC
+        
+        GW-->>LEO: Route data back
+        deactivate GW
+        
+        LEO-->>UAV: Transmit data to UAV
+        deactivate LEO
+        
+        UAV-->>UE: Stream data
+    end
+    
+    deactivate UAV

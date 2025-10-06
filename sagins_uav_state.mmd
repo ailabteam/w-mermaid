@@ -1,0 +1,33 @@
+%% File: sagins_uav_state.mmd
+%% Description: Connection state diagram for a UAV in the SAG-IN.
+
+stateDiagram-v2
+    [*] --> Searching: Power On
+
+    Searching --> Connected_Sat: Satellite signal acquired
+    Searching --> Connected_Ground: Terrestrial signal acquired
+
+    state Connected_Sat {
+        direction LR
+        [*] --> Stable_Sat
+        Stable_Sat --> Handover_to_Ground: Terrestrial signal becomes stronger
+    }
+
+    state Connected_Ground {
+        direction LR
+        [*] --> Stable_Ground
+        Stable_Ground --> Handover_to_Sat: Terrestrial signal lost
+    }
+
+    Handover_to_Ground --> Connected_Ground: Handover successful
+    Handover_to_Sat --> Connected_Sat: Handover successful
+
+    Connected_Sat --> Disconnected: All signals lost
+    Connected_Ground --> Disconnected: All signals lost
+    
+    Disconnected --> Searching: Start re-scan procedure
+    
+    note right of Handover_to_Ground
+        UAV maintains session continuity
+        during handover process.
+    end note

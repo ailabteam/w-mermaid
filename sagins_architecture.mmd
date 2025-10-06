@@ -1,0 +1,52 @@
+%% File: sagins_architecture.mmd
+%% Description: High-level architecture of Space-Air-Ground Integrated Networks (SAG-INs).
+
+graph TD;
+    %% Subgraph for the Space Layer
+    subgraph "Space Layer (Tầng không gian)"
+        GEO[GEO Satellite]
+        MEO[MEO Satellite]
+        LEO[LEO Satellite]
+        
+        %% Inter-satellite links (ISL)
+        LEO <-- ISL --> MEO;
+        MEO <-- ISL --> GEO;
+    end
+
+    %% Subgraph for the Air Layer
+    subgraph "Air Layer (Tầng trên không)"
+        HAP(HAP - High Altitude Platform)
+        UAV_Fleet((UAV Fleet / Swarm))
+    end
+    
+    %% Subgraph for the Ground Layer
+    subgraph "Ground Layer (Tầng mặt đất)"
+        direction LR
+        BS_5G[5G/6G Base Station]
+        UEs{{User Terminals}}
+        IoT_Devices((IoT Devices))
+        GW[/Ground Gateway/]
+        Cloud[Cloud/Data Center]
+        
+        %% Ground connections
+        UEs -- Terrestrial Link --- BS_5G;
+        IoT_Devices -- Terrestrial Link --- BS_5G;
+        BS_5G --- GW;
+        GW --- Cloud;
+    end
+    
+    %% Inter-layer links (Wireless Links)
+    LEO -.->|Sat-Ground Link| GW;
+    LEO -.->|Sat-Air Link| HAP;
+    HAP -.->|Air-Ground Link| BS_5G;
+    UAV_Fleet -.->|Air-Ground Link| UEs;
+    LEO -.->|Direct Access| UEs;
+
+    %% Styling for clarity
+    classDef space fill:#cce5ff,stroke:#333,stroke-width:2px;
+    classDef air fill:#d4edda,stroke:#333,stroke-width:2px;
+    classDef ground fill:#f8d7da,stroke:#333,stroke-width:2px;
+    
+    class GEO,MEO,LEO space;
+    class HAP,UAV_Fleet air;
+    class BS_5G,UEs,IoT_Devices,GW,Cloud ground;
