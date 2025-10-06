@@ -1,0 +1,7 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Liberation Serif, serif",
+    "fontSize": "13px"
+  }
+}

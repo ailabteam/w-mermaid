@@ -1,15 +1,5 @@
 %% File: advanced_sagins.mmd
-%% Description: An advanced diagram combining icons, math, and custom fonts.
-
-%%init%%
-{
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Liberation Serif, serif",
-    "fontSize": "13px"
-  }
-}
-%%init%%
+%% Description: An advanced diagram combining icons and math.
 
 graph TD
     subgraph "🛰️ Space & Air Layers"
@@ -25,6 +15,3 @@ graph TD
         C -- Yes --> D("✅ Maintain connection with BS1");
         C -- No  --> E("⚠️ Initiate handover to BS2");
     end
-
-    %% Link the subgraphs
-    A --> B
