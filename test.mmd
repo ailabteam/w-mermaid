@@ -1,0 +1,36 @@
+graph TD
+    %% Diagram Title: A framework overview of a standard CNN training pipeline for image classification.
+    %% This diagram outlines the three core stages: Data Preparation, Model Training, and Evaluation.
+
+    %% Group 1: Data Preparation Stage
+    %% This stage covers the initial loading and transformation of raw data
+    %% before it is fed into the model.
+    subgraph Group1 [Data Preparation Stage]
+        A["<b>Input Image Batch</b><br><i>A batch of raw images from the dataset.</i><br>X = {x_1, x_2, ..., x_N}"]
+        B["<b>Preprocessing</b><br><i>Applies normalization and augmentation.</i><br>x' = (x - μ) / σ"]
+    end
+
+    %% Group 2: Model Training & Optimization Loop
+    %% This stage represents the iterative process of learning model parameters.
+    %% The loop continues for a set number of epochs.
+    subgraph Group2 [Model Training & Optimization Loop]
+        C["<b>CNN Forward Pass</b><br><i>Processes the input batch to produce predictions.</i><br>ŷ = f(x'; θ)"]
+        D["<b>Loss Calculation</b><br><i>Computes the error using a loss function.</i><br>Cross-Entropy: L = -Σ y log(ŷ)"]
+        E["<b>Backpropagation & Optimization</b><br><i>Calculates gradients and updates model weights.</i><br>Adam Update: θ_t+1 = θ_t - η * ∇L(θ_t)"]
+    end
+
+    %% Group 3: Evaluation Stage
+    %% This stage uses a separate, unseen test dataset to assess the
+    %% trained model's generalization performance.
+    subgraph Group3 [Evaluation Stage]
+        F["<b>Performance Metrics</b><br><i>Calculates metrics like accuracy on a test set.</i><br>Accuracy = (TP+TN)/(P+N)"]
+    end
+
+    %% Interaction Flows / Connections
+    %% Defines the sequence and logic of the entire pipeline.
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -.->|Iterate over epochs| C
+    C -->|On test data| F
