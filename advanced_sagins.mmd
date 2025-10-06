@@ -1,0 +1,30 @@
+%% File: advanced_sagins.mmd
+%% Description: An advanced diagram combining icons, math, and custom fonts.
+
+%%init%%
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Liberation Serif, serif",
+    "fontSize": "13px"
+  }
+}
+%%init%%
+
+graph TD
+    subgraph "🛰️ Space & Air Layers"
+        A("UAV receives signal `y_k`") --> B{"Handover Decision"};
+    end
+
+    subgraph "decision_logic"
+        direction LR
+        B -- "Calculate SINR: `$$ SINR_k = \\frac{P_k |h_k|^2}{\\sum_{j \\neq k} P_j |h_j|^2 + \\sigma^2} $$`" --> C{`SINR_k > \\tau` ?};
+    end
+
+    subgraph "📡 Ground Layer"
+        C -- Yes --> D("✅ Maintain connection with BS1");
+        C -- No  --> E("⚠️ Initiate handover to BS2");
+    end
+
+    %% Link the subgraphs
+    A --> B

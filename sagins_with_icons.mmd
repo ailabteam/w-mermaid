@@ -1,0 +1,26 @@
+%% File: sagins_with_icons.mmd
+%% Description: SAG-INs architecture with Font Awesome icons.
+
+graph TD
+    subgraph "Space Layer"
+        LEO("fa:fa-satellite LEO Satellite")
+        GEO("fa:fa-satellite-dish GEO Relay")
+    end
+
+    subgraph "Air Layer"
+        UAV("fa:fa-plane-up UAV Swarm")
+    end
+    
+    subgraph "Ground Layer"
+        BS("fa:fa-tower-broadcast 5G/6G Base Station")
+        Users("fa:fa-users User Terminals")
+        Cloud("fa:fa-cloud-arrow-down Data Center")
+        GW("fa:fa-server Ground Gateway")
+    end
+    
+    %% Connections
+    LEO -- "fa:fa-wifi" --> UAV
+    LEO -- "fa:fa-wifi" --> GW
+    UAV -- "fa:fa-wifi" --> Users
+    BS -- "fa:fa-wifi" --> Users
+    GW --- Cloud
